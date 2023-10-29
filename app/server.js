@@ -99,8 +99,6 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).send(err.message);
 });
 
-
-console.log(config, process.env)
 // Database connect
 mongoose
   .connect(MONGODB_URI)
