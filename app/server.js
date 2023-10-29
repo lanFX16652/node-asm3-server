@@ -42,6 +42,7 @@ app.use(
   cors({
     origin: [config.crossDomainAdmin, config.crossDomainClient],
     credentials: true,
+    exposedHeaders: 'Set-Cookie'
   })
 );
 app.use(express.json());
