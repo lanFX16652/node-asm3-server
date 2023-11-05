@@ -1,13 +1,15 @@
 import multer from 'multer'
 import { MediaModel } from '../models/mediaModel.js';
-
+import * as path from 'path'
+import fs from "fs";
 
 const mediaRoute = (app) => {
 
     let storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            console.log(__dirname);
-            cb(null, 'public/uploads');
+            console.log("Current directory:", process.cwd());
+            console.log("Exist" , fs.existsSync(path.join(process.cwd(), 'public/uploads')))
+            cb(null, path.join(process.cwd(), 'public/uploads'));
         },
         filename: function (req, file, cb) {
             const mimetype = file.originalname.split('.').pop()
