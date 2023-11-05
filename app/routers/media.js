@@ -7,8 +7,6 @@ const mediaRoute = (app) => {
 
     let storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            console.log("Current directory:", process.cwd());
-            console.log("Exist" , fs.existsSync(path.join(process.cwd(), 'public/uploads')))
             cb(null, path.join(process.cwd(), 'public/uploads'));
         },
         filename: function (req, file, cb) {
