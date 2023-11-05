@@ -33,18 +33,14 @@ export const getInfoBar = async (req, res, next) => {
         //     }
         // ])
 
-        const year = new Date().getFullYear()
-        const month = new Date().getMonth()
-
-        const startDate = new Date(year, month, 1);
-        const endDate = new Date(year, month + 1, 0);
-
         const [earningsOfMonthData] = await orderModel.aggregate([
             {
                 $match: {
-                    createdAt: {
-                        $gte: startDate,
-                        $lte: endDate
+                    $expr: {
+                        $and: [
+                            { $eq: [{ $month: "$createdAt" }, new Date().getMonth() + 1] },
+                            { $eq: [{ $year: "$createdAt" }, new Date().getFullYear()] }
+                        ]
                     }
                 }
             },
@@ -57,11 +53,10 @@ export const getInfoBar = async (req, res, next) => {
                 }
             }
         ])
-
         res.json({
             clientsCount,
             newOrders,
-            earningsOfMonth: earningsOfMonthData.totalPrice,
+            earningsOfMonth: earningsOfMonthData?.totalPrice ?? 0,
         })
 
     } catch (error) {

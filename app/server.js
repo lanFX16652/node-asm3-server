@@ -22,9 +22,6 @@ import { config } from "./config/config.js";
 //  constance
 const MONGODB_URI = config.mongodbUri;
 
-//  config .env
-dotenv.config();
-
 const app = express();
 const server = http.createServer(app);
 //tạo server socket
@@ -37,7 +34,6 @@ const io = new Server(server, {
 global.socket = io;
 
 const PORT = process.env.PORT || 5000;
-
 app.use(
   cors({
     origin: [config.crossDomainAdmin, config.crossDomainClient],
@@ -62,8 +58,8 @@ const sessionMiddleware = session({
   cookie: {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    sameSite: 'none',
-    secure: true,
+    // sameSite: 'none',
+    // secure: true,
   },
   resave: true,
   store,
@@ -96,6 +92,7 @@ app.use(dashBoard)
 mediaRoute(app);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   res.status(err.statusCode || 500).send(err.message);
 });
 

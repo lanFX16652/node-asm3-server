@@ -6,6 +6,7 @@ const mediaRoute = (app) => {
 
     let storage = multer.diskStorage({
         destination: function (req, file, cb) {
+            console.log(__dirname);
             cb(null, 'public/uploads');
         },
         filename: function (req, file, cb) {
@@ -18,6 +19,8 @@ const mediaRoute = (app) => {
 
     app.post('/medias/upload', upload.array('images'), async function (req, res) {
         const files = req.files
+
+        console.log(files);
         try {
             const newFiles = await Promise.all(
                 files.map(file => {

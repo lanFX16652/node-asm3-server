@@ -191,17 +191,19 @@ export const cartOrder = async (req, res, next) => {
                         </tr>
                         ${newOrder.cart
                     .map(
-                        (item) => `
+                        (item) => {
+                            console.log(item)
+                            return `
                             <tr>
                                 <td>${item.product.name}</td>
-                                <td><img src="${item.product.img1}" /></td>
+                                <td><img src=${item.product.img1} alt=${item.product.name} /></td>
                                 <td>${parseCurrency(item.product.price)}</td>
                                 <td>${item.qty}</td>
                                 <td>${parseCurrency(
-                            item.qty * item.product.price
-                        )}</td>
+                                item.qty * item.product.price
+                            )}</td>
                             </tr>
-                        `
+                        `}
                     )
                     .join("")}
                     </table >
