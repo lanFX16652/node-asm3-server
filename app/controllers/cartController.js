@@ -160,6 +160,22 @@ export const cartOrder = async (req, res, next) => {
 
         const user = req.user;
 
+        let tableProductTemplate = ''
+          newOrder.cart
+          .forEach(
+            (item) => {
+                console.log(item.product.img1)
+                tableProductTemplate +=  `
+                            <tr>
+                                <td>${item.product.name}</td>
+                                <td><img src=${item.product.img1} alt=${item.product.name} /></td>
+                                <td>${parseCurrency(item.product.price)}</td>
+                                <td>${item.qty}</td>
+                                <td>${parseCurrency(item.qty * item.product.price)}</td>
+                            </tr>
+                        `}
+          )
+
         let mailOptions = {
             to: email, // Địa chỉ email người nhận
             subject: `Order ${newOrder._id} from Ecommerce Shop`, // Tiêu đề email
@@ -189,23 +205,7 @@ export const cartOrder = async (req, res, next) => {
                             <th>Số lượng</th>
                             <th>Thành tiền</th>
                         </tr>
-                        ${newOrder.cart
-                    .map(
-                        (item) => {
-                            console.log(item)
-                            return `
-                            <tr>
-                                <td>${item.product.name}</td>
-                                <td><img src=${item.product.img1} alt=${item.product.name} /></td>
-                                <td>${parseCurrency(item.product.price)}</td>
-                                <td>${item.qty}</td>
-                                <td>${parseCurrency(
-                                item.qty * item.product.price
-                            )}</td>
-                            </tr>
-                        `}
-                    )
-                    .join("")}
+                        ${tableProductTemplate}
                     </table >
 
     <h4>Tổng thanh toán: ${parseCurrency(totalPrice)}<h4>
