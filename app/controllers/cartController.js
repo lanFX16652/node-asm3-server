@@ -164,7 +164,7 @@ export const cartOrder = async (req, res, next) => {
           newOrder.cart
           .forEach(
             (item) => {
-                console.log(item.product.img1)
+                console.log(item)
                 tableProductTemplate +=  `
                             <tr>
                                 <td>${item.product.name}</td>
@@ -175,7 +175,7 @@ export const cartOrder = async (req, res, next) => {
                             </tr>
                         `}
           )
-
+        console.log(tableProductTemplate)
         let mailOptions = {
             to: email, // Địa chỉ email người nhận
             subject: `Order ${newOrder._id} from Ecommerce Shop`, // Tiêu đề email
