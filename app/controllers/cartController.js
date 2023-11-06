@@ -161,14 +161,20 @@ export const cartOrder = async (req, res, next) => {
         const user = req.user;
 
         let tableProductTemplate = ''
+        const attachments = []
+
           newOrder.cart
           .forEach(
             (item) => {
-                console.log(item)
+                attachments.push({
+                    filename: item.product.img1,
+                    path: item.product.img1,
+                    cid: item.product._id.toString()
+                })
                 tableProductTemplate +=  `
                             <tr>
                                 <td>${item.product.name}</td>
-                                <td><img src="${item.product.img1}" alt="${item.product.name}" /></td>
+                                <td><img src="cid:${item.product._id.toString()}" alt="${item.product.name}" /></td>
                                 <td>${parseCurrency(item.product.price)}</td>
                                 <td>${item.qty}</td>
                                 <td>${parseCurrency(item.qty * item.product.price)}</td>
@@ -179,6 +185,7 @@ export const cartOrder = async (req, res, next) => {
         let mailOptions = {
             to: email, // Địa chỉ email người nhận
             subject: `Order ${newOrder._id} from Ecommerce Shop`, // Tiêu đề email
+            attachments: attachments ,
             html: ` <html>
                 <head>
                     <style>
