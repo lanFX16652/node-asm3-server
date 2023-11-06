@@ -168,7 +168,7 @@ export const cartOrder = async (req, res, next) => {
                 tableProductTemplate +=  `
                             <tr>
                                 <td>${item.product.name}</td>
-                                <td><img src=${item.product.img1} alt=${item.product.name} /></td>
+                                <td><img src="${item.product.img1}" alt="${item.product.name}" /></td>
                                 <td>${parseCurrency(item.product.price)}</td>
                                 <td>${item.qty}</td>
                                 <td>${parseCurrency(item.qty * item.product.price)}</td>
